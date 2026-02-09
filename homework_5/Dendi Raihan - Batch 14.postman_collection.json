@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "dd254ec4-172f-42bf-945a-9ef2f573d90a",
+		"name": "Dendi Raihan - Batch 14",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "52186309",
+		"_collection_link": "https://portofoliodendi-5979997.postman.co/workspace/Portofolio-Dendi's-Workspace~10a8741a-6cb2-49b7-8452-4901a7575c2c/collection/52186309-dd254ec4-172f-42bf-945a-9ef2f573d90a?action=share&source=collection_link&creator=52186309"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"token\", pm.response.json().token);\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Anda Sudah Berhasil Login\", () => {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.message).to.eql(\"Login successful\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"password\": \"admin\",\r\n    \"username\":\"admin\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://belajar-bareng.onrender.com/api/login",
+					"protocol": "https",
+					"host": [
+						"belajar-bareng",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"//Ini fungsinya untuk cek apakah user sudah terdaftar atau belum. Kamu bisa ganti namanya di variable collection yaa!!!\r",
+							"let targetName = pm.collectionVariables.get(\"search_name\");\r",
+							"if (!targetName || targetName.trim() === \"\") {\r",
+							"\r",
+							"    pm.test(\"Error: Nama belum diisi!\", function () {\r",
+							"        pm.expect.fail(\"Kamu lupa isi variable 'search_name' di tab Variables Collection. Isi dulu yaaa!!!\");\r",
+							"    });\r",
+							"\r",
+							"} else {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    let userList = jsonData.users || [];\r",
+							"\r",
+							"    let userFound = userList.find(user => {\r",
+							"        return user.username &&\r",
+							"            typeof user.username === 'string' &&\r",
+							"            user.username.toLowerCase().trim() === targetName.toLowerCase().trim();\r",
+							"    });\r",
+							"\r",
+							"    if (userFound) {\r",
+							"        pm.test(`Hasil: User '${targetName}' Sudah terdaftar di list`, function () {\r",
+							"            pm.expect(userFound).to.not.be.undefined;\r",
+							"        });\r",
+							"    } else {\r",
+							"        pm.test(`Hasil: User '${targetName}' Belum ada di list `, function () {\r",
+							"            pm.expect.fail(`User '${targetName}' tidak terdaftar sebagau user.`);\r",
+							"        });\r",
+							"    }\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://belajar-bareng.onrender.com/api/users",
+					"protocol": "https",
+					"host": [
+						"belajar-bareng",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"{{search_name}}\",\r\n    \"age\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://belajar-bareng.onrender.com/api/add-user",
+					"protocol": "https",
+					"host": [
+						"belajar-bareng",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"api",
+						"add-user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "search_name",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
