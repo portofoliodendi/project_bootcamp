@@ -6,6 +6,7 @@
     "scripts": {
         "test": "mocha test/api --recursive --reporter mocha-simple-html-reporter --reporter-options output=report.html --timeout 60000"
     },
+    
     "dependencies": {
         "selenium-webdriver": "^4.17.0",
         "node-fetch": "^3.3.2",
