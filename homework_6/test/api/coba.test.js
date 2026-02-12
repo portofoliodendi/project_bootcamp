@@ -6,12 +6,11 @@ import schema from "../schema/schema.js";
 const BASE_URL = "https://belajar-bareng.onrender.com/api";
 const ajv = new Ajv();
 
-describe("API Automation: Login & Add User", function () {
+describe("API Automation: Login, Add User & Validasi User", function () {
     
     // --- INPUT DATA ---
-    const inputUser = "Minah";
+    const inputUser = "sulung";
     const inputAge = 29;
-    // ------------------
 
     let token = "";
 
@@ -65,5 +64,23 @@ describe("API Automation: Login & Add User", function () {
 
         expect(data.username).to.equal(inputUser);
         console.log(`✅ Berhasil menambahkan '${inputUser}' sebagai user dan dibuat dengan Schema yang valid.`);
+    });
+
+    it("3. Get Users - Verify User in List", async function () {
+        const response = await fetch(`${BASE_URL}/users`, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+        expect(response.status).to.equal(200);
+        const userList = data.users || data;
+        const userFound = userList.find(user => user.username === inputUser);
+        expect(userFound, `User '${inputUser}' tidak ditemukan dalam list user!`).to.not.be.undefined;
+        expect(Number(userFound.age)).to.equal(inputAge);
+
+        console.log(`✅ Verifikasi Sukses: User '${inputUser}' berhasil ditemukan di dalam daftar user.`);
     });
 });
