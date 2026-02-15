@@ -9,7 +9,7 @@ const ajv = new Ajv();
 describe("API Automation: Login, Add User & Validasi User", function () {
     
     // --- INPUT DATA ---
-    const inputUser = "sulung";
+    const inputUser = "Usertest2";
     const inputAge = 29;
 
     let token = "";
