@@ -1,0 +1,19 @@
+{
+    "name": "selenium-mocha-digital-skola",
+    "version": "1.0.0",
+    "description": "Selenium WebDriver tests using Mocha with Mochawesome reports",
+    "scripts": {
+        "test": "mocha test/specs/login_screenshoot.test.js --timeout 60000"
+    },
+    "dependencies": {
+        "pixelmatch": "7.1.0",
+        "pngjs": "7.0.0",
+        "selenium-webdriver": "^4.17.0"
+    },
+    "devDependencies": {
+        "exceljs": "^4.1.1",
+        "mocha": "^5.0.5",
+        "mocha-simple-html-reporter": "^2.0.0",
+        "mochawesome": "^4.1.0"
+    }
+}
